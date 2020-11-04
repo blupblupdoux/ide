@@ -1,7 +1,36 @@
 <template>
   <v-app>
-    <router-link to="/">Go to home</router-link>
-    <router-link to="/test">Go to test</router-link>
-    <router-view />
+
+    <v-navigation-drawer mini-variant.sync="true" app permanent>
+			<v-list>
+				<router-link v-for="nav_item in nav_items" :key="nav_item.label" :to="nav_item.path">
+					<v-list-item link>
+						<v-list-item-content>
+								<v-list-item-title>{{ nav_item.label }}</v-list-item-title>
+							</v-list-item-content>
+					</v-list-item>
+				</router-link>
+      </v-list>
+    </v-navigation-drawer>
+		
+    <v-main>
+      <router-view />
+    </v-main>
+
   </v-app>
 </template>
+
+<script>
+
+export default {
+	name: 'App',
+	data: () => ({
+		nav_items: [
+			{path: '/', label:'Home'},
+			{path: '/test', label:'Test'},
+			{path: '/connexion', label:'Connexion'},
+		],
+	})
+}
+
+</script>
