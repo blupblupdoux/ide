@@ -10,6 +10,12 @@
 							</v-list-item-content>
 					</v-list-item>
 				</router-link>
+
+				<v-list-item v-if="$store.getters.isLoggedIn" @click="logout" link> 
+					<v-list-item-content>
+							<v-list-item-title>Deconnexion</v-list-item-title>
+						</v-list-item-content>
+				</v-list-item>
       </v-list>
     </v-navigation-drawer>
 		
@@ -30,7 +36,15 @@ export default {
 			{path: '/test', label:'Test'},
 			{path: '/connexion', label:'Connexion'},
 		],
-	})
+	}),
+	methods: {
+		logout() {
+			this.$store.dispatch('logout')
+			.then(() => {
+				this.$router.push('/connexion')
+			})
+		}
+	},
 }
 
 </script>

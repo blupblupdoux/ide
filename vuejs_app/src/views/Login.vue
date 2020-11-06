@@ -24,7 +24,7 @@
 				outlined>
 			</v-text-field>
 
-			<v-btn @click="checkCredentials">Se connecter</v-btn>
+			<v-btn @click="manageLogin">Se connecter</v-btn>
     </v-form>
 
   </v-container>
@@ -32,8 +32,7 @@
 
 <script>
 
-import { mapState } from 'vuex'
-import axios from 'axios'
+import { mapActions, mapState } from 'vuex'
 
 export default {
 
@@ -55,16 +54,16 @@ export default {
 		...mapState(['api_url']),
 	},
 	methods: {
-      isValid () {
-        return this.$refs.form.validate()
-			},
-			checkCredentials () {
-				if(this.isValid()) {
-					// console.log(this.api_url);
-
-					axios.get('http://localhost:8000/test').then(response => (console.log(response)))
-				}
-			},
+		...mapActions(['login']),
+		isValid () {
+			return this.$refs.form.validate()
+		},
+		manageLogin () {
+			if(this.isValid()) {
+				this.login(this.credentials)
+				.then(() => this.$router.push('/'))
+			}
+		},
   },
 }
 </script>
