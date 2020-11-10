@@ -1,8 +1,10 @@
+import Dashboard from '../views/Dashboard.vue'
 import Home from '../views/Home.vue'
 import Test from '../views/Test.vue'
 import Login from '../views/Login.vue'
 
 const routes = [
+    // Visitor routes
     {
       path: '/',
       name: 'Home',
@@ -13,6 +15,17 @@ const routes = [
       name: 'Login',
       component: Login
     },
+    // User routes
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard,
+      meta: {
+        requiresAuth: true,
+        isAdmin: false
+      }
+    },
+    // Admin routes
     {
       path: '/test',
       name: 'Test',
@@ -21,7 +34,7 @@ const routes = [
         requiresAuth: true,
         isAdmin: true
       }
-    }
+    },
 ]
 
 export default routes

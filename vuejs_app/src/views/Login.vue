@@ -45,7 +45,7 @@
 <script>
 
 import { mapActions, mapState } from 'vuex'
-import ErrorAlert from '../components/ErrorAlert'
+import ErrorAlert from '../components/errorAlert'
 
 export default {
 
