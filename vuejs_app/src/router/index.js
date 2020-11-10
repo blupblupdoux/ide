@@ -2,32 +2,9 @@ import store from '../store/index.js'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../views/Home.vue'
-import Test from '../views/Test.vue'
-import Login from '../views/Login.vue'
+import routes from './routes.js'
 
 Vue.use(VueRouter)
-
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/connexion',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/test',
-    name: 'Test',
-    component: Test,
-    meta: {
-      requiresAuth: true,
-    }
-  }
-]
 
 const router = new VueRouter({
   mode: 'history',
@@ -37,18 +14,31 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 
-  if(to.matched.some(record => record.meta.requiresAuth)) {
+  if(to.matched.some(record => record.meta.requiresAuth)) { // check if need to be connected
 
-    if (store.getters.isLoggedIn) {
+    if (store.getters.isLoggedIn) { // I need to be connected so I check if I am
 
-      next()
-      return
+      if(to.matched.some(record => record.meta.isAdmin)) { // Check if need to be admin
+
+          if(store.state.auth.user.roles.includes('ROLE_ADMIN')) { // I need to be admin so I check if I am
+            next() // I need to be admin and I am, move on to the page
+            return
+
+          } else {
+            console.log('401 : je dois etre admin et je le suis pas')
+          }
+
+      } else {
+        next() // I'm connected and I don't need to be admin, move on to the page
+        return
+      }
+
+    } else {
+      next('/connexion') // Need to be connected and I'm not, go to connexion page
     }
 
-    next('/connexion')
-    
   } else {
-    next()
+    next() // Don't need to be connected, move on to the page
   }
 })
 

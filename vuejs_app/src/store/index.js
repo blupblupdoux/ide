@@ -25,7 +25,7 @@ export default new Vuex.Store({
     },
     DISCONNECTED(state) {
       state.auth.token = ''
-      // state.auth.user = {}
+      state.auth.user = {}
     }
   },
   actions: {
