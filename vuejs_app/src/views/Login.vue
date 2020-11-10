@@ -81,7 +81,7 @@ export default {
 
 				this.login(this.credentials)
 				.then(() => {
-					this.$router.push('/')
+					this.$router.push('/dashboard')
 				})
 				.catch(() => {
 						this.errorLogin = true
