@@ -1,31 +1,43 @@
 <template>
   <v-container>
 
-    <h1>Connexion</h1>
+		<ErrorAlert v-if="errorLogin"  message="Email ou mot de passe incorrect" />
 
-    <v-form ref="form">
-			<v-text-field 
-				type="email"
-				label="Email" 
-				placeholder="prenom.nom@gmail.com"
-				v-model="credentials.email" 
-				:rules="[rules.required, rules.email]" 
-				required 
-				outlined>
-			</v-text-field>
+		<v-row class="justify-center mt-10 mb-12">
+			<h1 class="login-title primary--text">Connexion</h1>
+		</v-row>
+    
+		<v-row class="justify-center">
+			<v-col cols="6">
+				<v-form @submit.prevent="manageLogin" ref="form" >
+					<v-text-field 
+						type="email"
+						label="Email" 
+						placeholder="prenom.nom@gmail.com"
+						v-model="credentials.email" 
+						:rules="[rules.required, rules.email]"
+						color="primary"
+						required 
+						outlined>
+					</v-text-field>
 
-			<v-text-field 
-				type="password"
-				label="Mot de passe" 
-				placeholder="exemple33!"
-				v-model="credentials.password"  
-				:rules="[rules.required]" 
-				required 
-				outlined>
-			</v-text-field>
+					<v-text-field 
+						type="password"
+						label="Mot de passe" 
+						placeholder="exemple33!"
+						v-model="credentials.password"  
+						:rules="[rules.required]" 
+						color="primary"
+						required
+						outlined>
+					</v-text-field>
 
-			<v-btn @click="manageLogin">Se connecter</v-btn>
-    </v-form>
+					<v-btn type="submit" color="primary" class="d-block mx-auto" >Se connecter</v-btn>
+				</v-form>
+			</v-col>
+		</v-row>
+
+		
 
   </v-container>
 </template>
@@ -33,11 +45,16 @@
 <script>
 
 import { mapActions, mapState } from 'vuex'
+import ErrorAlert from '../components/ErrorAlert'
 
 export default {
 
 	name: 'Login',
+	components: {
+		ErrorAlert
+	},
 	data: () => ({
+		errorLogin: false,
 		credentials: {
 			email: '',
 			password: ''
@@ -59,9 +76,16 @@ export default {
 			return this.$refs.form.validate()
 		},
 		manageLogin () {
+
 			if(this.isValid()) {
+
 				this.login(this.credentials)
-				.then(() => this.$router.push('/'))
+				.then(() => {
+					this.$router.push('/')
+				})
+				.catch(() => {
+						this.errorLogin = true
+        })
 			}
 		},
   },
