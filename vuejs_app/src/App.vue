@@ -1,60 +1,60 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+    <v-navigation-drawer mini-variant.sync="true" app permanent>
+			<v-list>
+				<router-link v-for="nav_item in nav_items" :key="nav_item.label" :to="nav_item.path">
+					<v-list-item link>
+						<v-list-item-content>
+								<v-list-item-title>{{ nav_item.label }}</v-list-item-title>
+							</v-list-item-content>
+					</v-list-item>
+				</router-link>
 
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
+				<v-list-item v-if="$store.getters.isLoggedIn" @click="logout" link> 
+					<v-list-item-content>
+							<v-list-item-title>Deconnexion</v-list-item-title>
+						</v-list-item-content>
+				</v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+		
     <v-main>
-      <HelloWorld/>
+      <router-view />
     </v-main>
+
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
 
 export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
+	name: 'App',
+	data: () => ({
+		nav_items: [
+			{path: '/', label:'Home'},
+			{path: '/test', label:'Test'},
+			{path: '/connexion', label:'Connexion'},
+		],
+	}),
+	methods: {
+		logout() {
+			this.$store.dispatch('logout')
+			.then(() => {
+				this.$router.push('/connexion')
+			})
+		}
+	},
+	created: function () {
+    this.$http.interceptors.response.use(undefined, function (err) {
+      return new Promise(function () {
+        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+          this.$store.dispatch('logout')
+        }
+        throw err;
+      });
+    });
   },
+}
 
-  data: () => ({
-    //
-  }),
-};
 </script>
