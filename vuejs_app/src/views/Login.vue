@@ -8,7 +8,7 @@
 		</v-row>
     
 		<v-row class="justify-center">
-			<v-col cols="6">
+			<v-col cols="10" sm="8" md="6">
 				<v-form @submit.prevent="manageLogin" ref="form" >
 					<v-text-field 
 						type="email"
