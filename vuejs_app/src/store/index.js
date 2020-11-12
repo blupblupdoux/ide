@@ -44,7 +44,6 @@ export default new Vuex.Store({
             axios.defaults.headers.common['Authorization'] = token
 
             // decrypt token
-
             let base64Url = token.split('.')[1]; // get the payload part of the token
             let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
