@@ -8,7 +8,7 @@
 		</v-row>
     
 		<v-row class="justify-center">
-			<v-col cols="6">
+			<v-col cols="10" sm="8" md="6">
 				<v-form @submit.prevent="manageLogin" ref="form" >
 					<v-text-field 
 						type="email"
@@ -45,7 +45,7 @@
 <script>
 
 import { mapActions, mapState } from 'vuex'
-import ErrorAlert from '../components/ErrorAlert'
+import ErrorAlert from '../components/errorAlert'
 
 export default {
 
@@ -81,7 +81,7 @@ export default {
 
 				this.login(this.credentials)
 				.then(() => {
-					this.$router.push('/')
+					this.$router.push('/dashboard')
 				})
 				.catch(() => {
 						this.errorLogin = true
