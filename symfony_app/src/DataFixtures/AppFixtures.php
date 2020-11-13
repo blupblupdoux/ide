@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use Nelmio\Alice\Loader\NativeLoader;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -15,8 +16,10 @@ class AppFixtures extends Fixture
         $entities = $loader->loadFile(__DIR__.'/fixtures.yaml')->getObjects();
 
         foreach ($entities as $entity) {
-            // password decrypt = user
-            $entity->setPassword('$argon2id$v=19$m=65536,t=4,p=1$1p0D/j/2PrQKvfxAz/J+SA$NYaUQx44eRoyWtHcww4TjndGeYrqq26aYLZA7tdLMvQ');
+            if($entity instanceof User) {
+                // password decrypt = user
+                $entity->setPassword('$argon2id$v=19$m=65536,t=4,p=1$1p0D/j/2PrQKvfxAz/J+SA$NYaUQx44eRoyWtHcww4TjndGeYrqq26aYLZA7tdLMvQ');
+            }
             $em->persist($entity);
         };
 

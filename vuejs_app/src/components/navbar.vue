@@ -10,7 +10,7 @@
 					<v-avatar size="36px" class="avatar">
 						<v-icon color="primary">fa-user-md</v-icon>
 					</v-avatar>
-					<p class="mb-0 ml-3">{{ auth.user.email }}</p>
+					<p class="mb-0 ml-3">{{ auth.user.firstname }}</p>
 					<a class="pl-3 ml-auto">
 						<i class="fa fa-chevron-down mr-1" aria-hidden="true"></i>
 					</a>
