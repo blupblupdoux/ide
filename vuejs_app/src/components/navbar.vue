@@ -11,7 +11,7 @@
 						<v-icon color="primary">fa-user-md</v-icon>
 					</v-avatar>
 					<p class="mb-0 ml-3">{{ auth.user.email }}</p>
-					<a class="ml-auto">
+					<a class="pl-3 ml-auto">
 						<i class="fa fa-chevron-down mr-1" aria-hidden="true"></i>
 					</a>
 				</div>
@@ -86,7 +86,10 @@ export default {
 <style lang="scss">
 
 .container {
+
 	.nav-drawer {
+
+		width: auto!important;
 		
 		.nav-user {
 			cursor: pointer;

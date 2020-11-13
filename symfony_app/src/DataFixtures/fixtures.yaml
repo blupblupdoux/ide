@@ -1,0 +1,4 @@
+App\Entity\User:
+    user{1..4}:
+        email (unique): '<email()>'
+        roles: '<randomElements(["ROLE_ADMIN",""], 1)>'
