@@ -3,7 +3,7 @@
 
 		<v-btn color="primary" class="hidden-md-and-up" @click.stop="drawer = !drawer"></v-btn>
 
-		<v-navigation-drawer class="nav-drawer" v-model="drawer" :permanent="$vuetify.breakpoint.mdAndUp" :expand-on-hover="$vuetify.breakpoint.mdAndUp" app left> 
+		<v-navigation-drawer class="nav-drawer" v-model="drawer" :permanent="$vuetify.breakpoint.mdAndUp" :expand-on-hover="$vuetify.breakpoint.mdAndUp" width="auto" app left> 
 
 			<div>
 				<div class="nav-user pa-2 d-flex align-center" @click.stop="user_dropdown = !user_dropdown">
@@ -89,8 +89,6 @@ export default {
 
 	.nav-drawer {
 
-		width: auto!important;
-		
 		.nav-user {
 			cursor: pointer;
 		}
