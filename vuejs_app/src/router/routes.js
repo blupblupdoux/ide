@@ -1,6 +1,6 @@
 import Dashboard from '../views/Dashboard.vue'
 import Home from '../views/Home.vue'
-import Test from '../views/Test.vue'
+import Users from '../views/Users.vue'
 import Login from '../views/Login.vue'
 
 const routes = [
@@ -27,9 +27,9 @@ const routes = [
     },
     // Admin routes
     {
-      path: '/test',
-      name: 'Test',
-      component: Test,
+      path: '/utilisateurs',
+      name: 'Users',
+      component: Users,
       meta: {
         requiresAuth: true,
         isAdmin: true

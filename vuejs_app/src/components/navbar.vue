@@ -31,7 +31,7 @@
 
 			<v-list class="pa-0" v-if="auth.user.roles.includes('ROLE_ADMIN')">
 				<router-link v-for="nav_item in nav_items.admin" :key="nav_item.label" :to="nav_item.path">
-					<NavbarItem :name="nav_item.label" />
+					<NavbarItem :name="nav_item.label" :icon="nav_item.icon" />
 				</router-link>
 			</v-list>
 
@@ -59,7 +59,7 @@ export default {
 				{path: '/dashboard', label:'Dashboard', icon:'fa-home'},
 			],
 			admin: [
-				{path: '/test', label:'Test'},
+				{path: '/utilisateurs', label:'Utilisateurs', icon: 'fa-user-md'},
 			]
 		},
 	}),
