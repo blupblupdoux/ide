@@ -38,7 +38,7 @@ class UserController extends AbstractController
     public function browse(): Response
     {
         $users = $this->userRepository->findAll();
-        $users_json = $this->serializer->serialize($users, 'json', ['groups' => ['user']]);
-        return $users_json;
+        $users_array = $this->serializer->normalize($users, null, ['groups' => ['user']]);
+        return $this->json($users_array);
     }
 }

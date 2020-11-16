@@ -7,11 +7,11 @@ import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false
 
-Vue.prototype.$http = Axios;
+Vue.prototype.$axios = Axios;
 
 const token = localStorage.getItem('user-token')
 if (token) {
-  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+  Vue.prototype.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 }
 
 new Vue({

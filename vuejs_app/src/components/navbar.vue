@@ -1,7 +1,16 @@
 <template>
-	<v-container v-if="isLoggedIn">
+	<v-container v-if="isLoggedIn" class="pa-0">
 
-		<v-btn color="primary" class="hidden-md-and-up" @click.stop="drawer = !drawer"></v-btn>
+		<v-row class="ma-0 d-flex justify-end">
+			<v-icon 
+				class="hidden-md-and-up pt-4 px-5" 
+				@click.stop="drawer = !drawer" 
+				color="primary"
+			>
+				fa-bars
+			</v-icon>
+		</v-row>
+		
 
 		<v-navigation-drawer class="nav-drawer" v-model="drawer" :permanent="$vuetify.breakpoint.mdAndUp" :expand-on-hover="$vuetify.breakpoint.mdAndUp" width="auto" app left> 
 

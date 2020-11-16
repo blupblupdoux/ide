@@ -41,7 +41,7 @@ export default new Vuex.Store({
             
             // store token in local storage
             localStorage.setItem('user-token', token)
-            axios.defaults.headers.common['Authorization'] = token
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 
             // decrypt token
             let base64Url = token.split('.')[1]; // get the payload part of the token

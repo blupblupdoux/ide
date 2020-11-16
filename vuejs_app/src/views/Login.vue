@@ -48,7 +48,6 @@ import { mapActions, mapState } from 'vuex'
 import ErrorAlert from '../components/errorAlert'
 
 export default {
-
 	name: 'Login',
 	components: {
 		ErrorAlert
