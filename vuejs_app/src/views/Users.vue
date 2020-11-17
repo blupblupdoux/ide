@@ -10,10 +10,10 @@
         :headers="headers"
         :items="users" 
         hide-default-footer 
-        @click:row="showUserDetails = true"
-        class="elevation-1 px-2"
+        @click:row="userDetails"
+        class="elevation-1 mx-2"
       >
-      
+
         <template v-slot:item.roles="{ item }">
           <v-icon v-if="item.roles.includes('ROLE_ADMIN')">fa-check</v-icon>
           <v-icon v-else>fa-times</v-icon>
@@ -26,11 +26,7 @@
 
       </v-data-table>
 
-      <v-dialog v-model="showUserDetails">
-          <v-card>
-            <v-card-title>Are you sure you want to delete this item?</v-card-title>
-          </v-card>
-      </v-dialog>
+      <UserForm :user="userClicked" />
 
     </v-row>
   </v-container>
@@ -38,10 +34,16 @@
 
 <script>
 import { mapState } from 'vuex'
+import UserForm from '../components/userForm'
 
 export default {
   name: 'Users',
+  components: {
+    UserForm
+  },
   data: () => ({
+    // modalUserDetails: false,
+    // table data :
     headers: [
       {text: 'Nom', value: 'lastname'},
       {text: 'Prénom', value: 'firstname'},
@@ -51,13 +53,21 @@ export default {
       {text: 'Actions', value: 'actions', sortable: false},
     ],
     users: [],
-    showUserDetails: false,
+    userClicked: {}
   }),
   computed: {
     ...mapState(['api_url']),
   },
   methods: {
+    userDetails(event) {
 
+      this.$axios
+        .get(`${this.api_url}/user/${event.id}`)
+        .then(response => { 
+          this.userClicked = response.data
+          this.$root.$refs.userForm.openDialog()
+        })
+    },
   },
   mounted() {
     this.$axios

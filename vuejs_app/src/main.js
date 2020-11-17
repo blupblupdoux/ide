@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 
 Vue.prototype.$axios = Axios;
 
-const token = localStorage.getItem('user-token')
+let token = localStorage.getItem('user-token')
 if (token) {
   Vue.prototype.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 }

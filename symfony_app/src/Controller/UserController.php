@@ -41,4 +41,14 @@ class UserController extends AbstractController
         $users_array = $this->serializer->normalize($users, null, ['groups' => ['user']]);
         return $this->json($users_array);
     }
+
+    /**
+     * @Route("/{id}", name="read", requirements={"id"="\d+"})
+     */
+    public function read($id): Response
+    {
+        $user = $this->userRepository->find($id);
+        $user_array = $this->serializer->normalize($user, null, ['groups' => ['user']]);
+        return $this->json($user_array);
+    }
 }
