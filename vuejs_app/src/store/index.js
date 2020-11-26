@@ -7,16 +7,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     api_url: 'http://localhost:8000/api',
-    auth : {
+    auth: {
       token: localStorage.getItem('user-token'),
       user: JSON.parse(localStorage.getItem('user')),
-    }
-    
+    },
   },
   getters : {
     isLoggedIn(state) {
       return !!state.auth.token
-    }
+    },
   },
   mutations: {
     CONNECTED(state, {token, user}) {

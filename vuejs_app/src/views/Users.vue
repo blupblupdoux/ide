@@ -6,27 +6,24 @@
     </v-row>
    
     <v-row class="d-block">
+      <v-btn @click="addUser">Ajouter un utilisateur</v-btn>
       <v-data-table
         :headers="headers"
         :items="users" 
         hide-default-footer 
         @click:row="userDetails"
         class="elevation-1 mx-2"
+        disable-pagination
       >
 
         <template v-slot:item.roles="{ item }">
-          <v-icon v-if="item.roles.includes('ROLE_ADMIN')">fa-check</v-icon>
+          <v-icon v-if="item.roles.includes('ROLE_ADMIN')" color="success">fa-check</v-icon>
           <v-icon v-else>fa-times</v-icon>
-        </template>
-
-        <template v-slot:item.actions>
-          <a href=""><v-icon class="mr-2 mt-1" color="warning">fa-pencil-square-o</v-icon></a>
-          <a href=""><v-icon color="error">fa-trash-o</v-icon></a>
         </template>
 
       </v-data-table>
 
-      <UserForm :user="userClicked" />
+      <UserForm @refreshUsers="userList"  />
 
     </v-row>
   </v-container>
@@ -34,7 +31,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import UserForm from '../components/userForm'
+import UserForm from '../components/user/userForm'
 
 export default {
   name: 'Users',
@@ -42,7 +39,6 @@ export default {
     UserForm
   },
   data: () => ({
-    // modalUserDetails: false,
     // table data :
     headers: [
       {text: 'Nom', value: 'lastname'},
@@ -50,7 +46,6 @@ export default {
       {text: 'Mail', value: 'email', sortable: false},
       {text: 'Téléphone', value: 'phone', sortable: false},
       {text: 'Admin', value: 'roles', sortable: false},
-      {text: 'Actions', value: 'actions', sortable: false},
     ],
     users: [],
     userClicked: {}
@@ -59,20 +54,27 @@ export default {
     ...mapState(['api_url']),
   },
   methods: {
+    userList() {
+      this.$axios
+        .get(`${this.api_url}/user/`)
+        .then(response => { this.users = response.data })
+    },
     userDetails(event) {
 
       this.$axios
         .get(`${this.api_url}/user/${event.id}`)
         .then(response => { 
           this.userClicked = response.data
-          this.$root.$refs.userForm.openDialog()
+          this.$root.$refs.userForm.openDialog(this.userClicked)
         })
+    },
+    addUser() {
+      this.$root.$refs.userForm.allowAddUser()
+      this.$root.$refs.userForm.openDialog(this.userClicked)
     },
   },
   mounted() {
-    this.$axios
-      .get(`${this.api_url}/user/`)
-      .then(response => { this.users = response.data })
+    this.userList()
   }
 }
 </script>

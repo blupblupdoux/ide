@@ -46,9 +46,11 @@
 
 import { mapActions, mapState } from 'vuex'
 import ErrorAlert from '../components/errorAlert'
+import { formMixin } from '../mixins/form'
 
 export default {
 	name: 'Login',
+	mixins: [formMixin],
 	components: {
 		ErrorAlert
 	},
@@ -57,13 +59,6 @@ export default {
 		credentials: {
 			email: '',
 			password: ''
-		},
-		rules: {
-			required: value => !!value || 'Requis',
-			email: value => {
-				const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-				return regex.test(value) || 'Le mail n\'est pas valide'
-			},
 		},
 	}),
 	computed: {
