@@ -1,17 +1,26 @@
 <template>
-	<v-container v-if="isLoggedIn">
+	<v-container v-if="isLoggedIn" class="pa-0">
 
-		<v-btn color="primary" class="hidden-md-and-up" @click.stop="drawer = !drawer"></v-btn>
+		<v-row class="ma-0 d-flex justify-end">
+			<v-icon 
+				class="hidden-md-and-up pt-4 px-5" 
+				@click.stop="drawer = !drawer" 
+				color="primary"
+			>
+				fa-bars
+			</v-icon>
+		</v-row>
+		
 
-		<v-navigation-drawer class="nav-drawer" v-model="drawer" :permanent="$vuetify.breakpoint.mdAndUp" :expand-on-hover="$vuetify.breakpoint.mdAndUp" app left> 
+		<v-navigation-drawer class="nav-drawer" v-model="drawer" :permanent="$vuetify.breakpoint.mdAndUp" :expand-on-hover="$vuetify.breakpoint.mdAndUp" width="auto" app left> 
 
 			<div>
 				<div class="nav-user pa-2 d-flex align-center" @click.stop="user_dropdown = !user_dropdown">
 					<v-avatar size="36px" class="avatar">
 						<v-icon color="primary">fa-user-md</v-icon>
 					</v-avatar>
-					<p class="mb-0 ml-3">{{ auth.user.email }}</p>
-					<a class="ml-auto">
+					<p class="mb-0 ml-3">{{ auth.user.firstname }}</p>
+					<a class="pl-3 ml-auto">
 						<i class="fa fa-chevron-down mr-1" aria-hidden="true"></i>
 					</a>
 				</div>
@@ -31,7 +40,7 @@
 
 			<v-list class="pa-0" v-if="auth.user.roles.includes('ROLE_ADMIN')">
 				<router-link v-for="nav_item in nav_items.admin" :key="nav_item.label" :to="nav_item.path">
-					<NavbarItem :name="nav_item.label" />
+					<NavbarItem :name="nav_item.label" :icon="nav_item.icon" />
 				</router-link>
 			</v-list>
 
@@ -59,7 +68,7 @@ export default {
 				{path: '/dashboard', label:'Dashboard', icon:'fa-home'},
 			],
 			admin: [
-				{path: '/test', label:'Test'},
+				{path: '/utilisateurs', label:'Utilisateurs', icon: 'fa-user-md'},
 			]
 		},
 	}),
@@ -86,8 +95,9 @@ export default {
 <style lang="scss">
 
 .container {
+
 	.nav-drawer {
-		
+
 		.nav-user {
 			cursor: pointer;
 		}

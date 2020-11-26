@@ -7,16 +7,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     api_url: 'http://localhost:8000/api',
-    auth : {
+    auth: {
       token: localStorage.getItem('user-token'),
       user: JSON.parse(localStorage.getItem('user')),
-    }
-    
+    },
   },
   getters : {
     isLoggedIn(state) {
       return !!state.auth.token
-    }
+    },
   },
   mutations: {
     CONNECTED(state, {token, user}) {
@@ -41,13 +40,13 @@ export default new Vuex.Store({
             
             // store token in local storage
             localStorage.setItem('user-token', token)
-            axios.defaults.headers.common['Authorization'] = token
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
 
             // decrypt token
             let base64Url = token.split('.')[1]; // get the payload part of the token
             let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
             }).join(''));
             let payload = JSON.parse(jsonPayload)
 

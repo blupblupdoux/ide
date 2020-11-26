@@ -3,7 +3,7 @@
     <v-list-item-icon>
       <v-icon color="primary">{{ icon }}</v-icon>
     </v-list-item-icon>
-    <v-list-item-content class="py-0">
+    <v-list-item-content class="py-0 pr-3">
       <v-list-item-title>{{ name }}</v-list-item-title>
     </v-list-item-content>
   </v-list-item>

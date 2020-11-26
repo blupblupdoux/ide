@@ -1,7 +1,7 @@
 <template>
   <v-app>
 
-    <Navbar />
+    <Navbar v-if="$route.name != 'Login' && $route.name != 'Home'" />
 		
     <v-main>
       <router-view />
@@ -12,7 +12,7 @@
 
 <script>
 
-import Navbar from './components/navbar'
+import Navbar from './components/navbar/navbar'
 
 export default {
 	name: 'App',
@@ -20,12 +20,19 @@ export default {
 		Navbar
 	},
 	created: function () {
-    this.$http.interceptors.response.use(undefined, function (err) {
+
+    let that = this
+
+    this.$axios.interceptors.response.use(undefined, function (error) {
       return new Promise(function () {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          this.$store.dispatch('logout')
+        if (error.response.status === 401) {
+        
+          that.$store.dispatch('logout')
+          .then(() => {
+            that.$router.push('/connexion')
+          })
         }
-        throw err;
+        throw error;
       });
     });
   },

@@ -1,0 +1,12 @@
+App\Entity\User:
+    user{1..4}:
+        email (unique): '<email()>'
+        roles: '<randomElements(["ROLE_ADMIN",""], 1)>'
+        lastname: '<lastName()>'
+        firstname: '<firstName(null)>'
+        birthday: '<dateTime("now")>'
+        phone: '<phoneNumber()>'
+        address: '<streetAddress()>'
+        postcode: '<postcode()>'
+        city: '<city()>'
+        description: '<text(350)>'
