@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="75%" @click:outside="closeDialog">
+  <v-dialog v-model="dialog" :max-width="$vuetify.breakpoint.smAndUp ? '75%' : '95%'" @click:outside="closeDialog">
     <v-card class="px-6 py-2">
 
       <v-card-title v-if="!modifUser && !addUser">{{user.lastname }} {{ user.firstname }}</v-card-title>
@@ -8,7 +8,7 @@
 
       <v-form @submit.prevent="submitUser" ref="form">
         <v-row class="card-content">
-          <v-col cols="6" class="user-contact">
+          <v-col cols="12" md="6" class="user-contact">
 
             <v-row>
               <v-col v-if="!addUser" class="mb-3" >
@@ -79,7 +79,7 @@
 
           </v-col>
 
-          <v-col cols="6" class="user-infos">
+          <v-col cols="12" md="6" class="user-infos">
             <div class="user-address">
 
               <v-text-field 
@@ -92,7 +92,7 @@
               </v-text-field>
 
               <v-row>
-                <v-col>
+                <v-col cols="12" sm="6">
                   <v-text-field 
                     label="Code Postal"  
                     v-model="user.postcode" 
@@ -102,7 +102,7 @@
                     outlined>
                   </v-text-field>
                 </v-col>
-                <v-col>
+                <v-col cols="12" sm="6">
                   <v-text-field 
                     label="Ville"  
                     v-model="user.city" 
@@ -154,8 +154,8 @@
         <v-card-actions class="d-flex justify-center">
           <v-btn v-show="!modifUser && !addUser" @click="modifUser = true" color="warning">Activer la modification</v-btn>
           <v-btn v-show="modifUser" type="submit" color="primary">Enregistrer les modifications</v-btn>
-          <v-btn v-if="addUser" type="submit" color="primary">Valider</v-btn>
-          <v-btn v-if="!addUser" color="error">Supprimer l'utilisateur</v-btn>
+          <v-btn v-show="addUser" type="submit" color="primary">Valider</v-btn>
+          <v-btn v-show="!addUser" @click="deleteUser" color="error">Supprimer l'utilisateur</v-btn>
         </v-card-actions>
 
       </v-form>
@@ -167,7 +167,7 @@
 <script>
 
 import { mapState } from 'vuex'
-import { formMixin } from '../../mixins/form'
+import { formMixin } from '../mixins/form'
 
 export default {
   name: 'UserForm',
@@ -225,16 +225,17 @@ export default {
             })
 
         } else {
-
           this.$axios
             .post(`${this.api_url}/user/add`, user_JSON)
-            .then(response => {
-              this.closeDialog()
-              console.log(response)
-            })
+            .then(() => this.closeDialog())
         }
-      } else {
-        console.log("ko")
+      }
+    },
+    deleteUser() {
+      if(this.user.id) {
+        this.$axios
+          .post(`${this.api_url}/user/delete/${this.user.id}`)
+          .then(() => this.closeDialog())
       }
     }
   },

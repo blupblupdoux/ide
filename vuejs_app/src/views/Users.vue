@@ -31,7 +31,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import UserForm from '../components/user/userForm'
+import UserForm from '../components/userForm'
 
 export default {
   name: 'Users',

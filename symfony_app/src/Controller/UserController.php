@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,13 +35,19 @@ class UserController extends AbstractController
      * @var ValidatorInterface
      */
     private $validator;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
     
 
-    public function __construct(UserRepository $userRepository, SerializerInterface $serializer, ValidatorInterface $validator)
+    public function __construct(UserRepository $userRepository, SerializerInterface $serializer, ValidatorInterface $validator, EntityManagerInterface $em)
     {
         $this->userRepository = $userRepository;
         $this->serializer = $serializer;
         $this->validator = $validator;
+        $this->em = $em;
     }
 
     /**
@@ -101,9 +108,8 @@ class UserController extends AbstractController
 
                 $user->setPassword($encoder->encodePassword($user, $data['password']));
 
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
+                $this->em->persist($user);
+                $this->em->flush();
 
                 return $this->json($user, 201);
             } else 
@@ -162,8 +168,7 @@ class UserController extends AbstractController
                             }
                         }
 
-                        $em = $this->getDoctrine()->getManager();
-                        $em->flush();
+                        $this->em->flush();
 
                         return $this->json($user, 200);
                     } 
@@ -186,5 +191,22 @@ class UserController extends AbstractController
         {
             return $this->json("You cannot send empty request", 400);
         }
+    }
+
+    /**
+     * @Route("/delete/{id}", name="delete", requirements={"id"="\d+"})
+     */
+    public function delete($id): Response
+    {   
+        $user = $this->userRepository->find($id);
+
+        if($user) 
+        {
+            $this->em->remove($user);
+            $this->em->flush();
+            
+            return $this->json(["User " . $id . " successfully delete"], 200);
+        }
+        return $this->json("The user you want to delete doesn't exist", 404);
     }
 }
