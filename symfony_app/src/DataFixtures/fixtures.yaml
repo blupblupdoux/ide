@@ -10,3 +10,20 @@ App\Entity\User:
         postcode: '<postcode()>'
         city: '<city()>'
         description: '<text(350)>'
+
+App\Entity\Patient:
+    patient{1..4}:
+        gender: '<randomElement(["m","f", ""])>'
+        firstname: '<firstName(null)>'
+        lastname: '<lastName()>'
+        birthday: '<dateTime("now")>'
+        address: '<streetAddress()>'
+        postcode: '<postcode()>'
+        city: '<city()>'
+        address_info: '<text(200)>'
+        phone_home: '<phoneNumber()>'
+        phone_mobile: '<phoneNumber()>'
+        email: '<email()>'
+        doctor: '<name()>'
+        secu_nb: '<numberBetween(100000000000000, 999999999999999)>'
+        patient_info: '<text(350)>'

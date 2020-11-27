@@ -97,6 +97,16 @@ class Patient
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $Death;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -290,6 +300,18 @@ class Patient
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getDeath(): ?\DateTimeInterface
+    {
+        return $this->Death;
+    }
+
+    public function setDeath(?\DateTimeInterface $Death): self
+    {
+        $this->Death = $Death;
 
         return $this;
     }

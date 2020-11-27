@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Patient;
 use App\Entity\User;
 use Nelmio\Alice\Loader\NativeLoader;
 
@@ -19,6 +20,9 @@ class AppFixtures extends Fixture
             if($entity instanceof User) {
                 // password decrypt = user
                 $entity->setPassword('$argon2id$v=19$m=65536,t=4,p=1$1p0D/j/2PrQKvfxAz/J+SA$NYaUQx44eRoyWtHcww4TjndGeYrqq26aYLZA7tdLMvQ');
+            }
+            if($entity instanceof Patient && $entity->getGender() == 'f') {
+                $entity->setDeath(new \DateTime());d
             }
             $em->persist($entity);
         };
